@@ -4,112 +4,441 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Murphy's Pub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: #ffffff;
+
+    @font-face {
+      font-family: 'Goudy Medieval Alternate';
+      src: url('fonts/Goudy Medieval Alternate.ttf') format('truetype');
+      font-weight: normal;
+      font-style: alternate;
+      font-display: swap;
     }
 
-    .container {
-      max-width: 1000px;
+    :root {
+      --amber:     #e8a020;
+      --amber-dim: #b07010;
+      --cream:     #f5e6c8;
+      --brown-dk:  #1a0e06;
+      --brown-md:  #2e1a0a;
+      --brown-lt:  #5c3a1e;
+      --smoke:     rgba(255,255,255,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--brown-dk);
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---- LOGO NAV ---- */
+    .top-nav-studio {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      padding: 22px 36px;
+    }
+
+    .top-nav-studio img {
+      height: 40px;
+      width: auto;
+      cursor: pointer;
+      transition: opacity 0.18s;
+    }
+
+    .top-nav-studio img.logo-normal   { opacity: 0.75; }
+    .top-nav-studio img.logo-hovered  { display: none; opacity: 1; }
+    .top-nav-studio:hover img.logo-normal  { display: none; }
+    .top-nav-studio:hover img.logo-hovered { display: inline; }
+
+    .footer-copyright {
+      font-size: 12px;
+      color: rgba(245,230,200,0.4);
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    /* ---- HERO SECTION ---- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ---- BACKGROUND IMAGE ---- */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/MurphysPub_BG.png');
+      background-size: cover;
+      background-position: center right;
+      filter: brightness(0.55) saturate(1.2);
+      z-index: 0;
+    }
+
+    /* dark vignette for title and text and button */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(15,6,0,0.92) 0%,
+        rgba(15,6,0,0.72) 10%,
+        rgba(15,6,0,0.10) 25%,
+        transparent 100%
+      );
+
+    }
+
+    /* ---- CONTENT ---- */
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
-      padding: 80px 20px;
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+    }
+
+    /* ---- LOGO ---- */
+    .logo-wrap img {
+      height: 72px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(232,160,32,0.6));
+    }
+
+    /* ---- GAME TITLE ---- */
+    .game-logo img {
+      max-width: 520px;
+      width: 100%;
+      filter: drop-shadow(0 4px 24px rgba(0,0,0,0.8));
+    }
+
+    /* Fallback heading */
+    .game-logo h1 {
+      font-family: 'Goudy Medieval Alternate', serif;
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--cream);
+      text-shadow:
+        0 0 40px rgba(232,160,32,0.45),
+        2px 4px 0 rgba(0,0,0,0.7);
+      max-width: 560px;
+    }
+
+    .game-logo h1 span {
+      color: var(--amber);
+    }
+
+    /* ---- TAGLINE ---- */
+    .tagline {
+      font-size: clamp(16px, 2vw, 21px);
+      font-style: italic;
+      color: rgba(245,230,200,0.78);
+      max-width: 500px;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* ---- DIVIDER ---- */
+    .divider {
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(to right, var(--amber-dim), transparent);
+      border-radius: 2px;
+    }
+
+    /* ---- BUTTONS ---- */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .btn-download {
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .btn-download img {
+      height: 78px;
+      width: auto;
+      transition: transform 0.18s ease, filter 0.18s ease;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+    }
+
+    .btn-download:hover img.btn-normal   { display: none; }
+    .btn-download:hover img.btn-hover    { display: inline; }
+    .btn-download img.btn-hover          { display: none; }
+    .btn-download:hover img {
+      transform: scale(1.06);
+      filter: drop-shadow(0 6px 18px rgba(232,160,32,0.5));
+    }
+
+    /* Fallback CSS button */
+    .btn-fallback {
+      display: inline-block;
+      padding: 14px 32px;
+      font-family: 'Goudy Medieval Alternate', serif;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--brown-dk);
+      background: linear-gradient(135deg, #f0b830, #c07820);
+      border: 2px solid var(--amber);
+      border-radius: 4px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(232,160,32,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+    }
+
+    .btn-fallback:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(232,160,32,0.55), inset 0 1px 0 rgba(255,255,255,0.2);
+      filter: brightness(1.1);
+    }
+
+    /* ---- TRAILER SECTION ---- */
+    .trailer-section {
+      background: var(--brown-md);
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .trailer-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--amber), transparent);
+    }
+
+    .section-label {
+      font-family: 'Goudy Medieval Alternate', serif;
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Goudy Medieval Alternate', serif;
+      font-size: clamp(22px, 3.5vw, 38px);
+      color: var(--cream);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .video-wrap {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 2px rgba(232,160,32,0.25);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ---- ABOUT SECTION ---- */
+    .about-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 40px;
       text-align: center;
     }
 
-    h1 {
-      font-size: 52px;
-      margin-bottom: 10px;
+    .about-section p {
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.75;
+      color: rgba(245,230,200,0.82);
     }
 
-    p {
-      font-size: 18px;
-      color: #bbbbbb;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto 40px auto;
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid rgba(232,160,32,0.18);
+      padding: 40px 40px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
     }
 
-    /* 🎥 Responsive video */
-    .video-container {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto 40px auto;
-      aspect-ratio: 16 / 9;
+    .footer-studio {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    .video-container iframe {
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
+    .footer-studio img {
+      height: 40px;
+      width: auto;
+      cursor: pointer;
+      transition: opacity 0.18s;
     }
 
-    .download-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 15px 30px;
-      font-size: 20px;
-      color: white;
-      background: #28a745;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: 0.2s;
-    }
+    .footer-studio img.logo-normal   { opacity: 0.75; }
+    .footer-studio img.logo-hovered  { display: none; opacity: 1; }
+    .footer-studio:hover img.logo-normal  { display: none; }
+    .footer-studio:hover img.logo-hovered { display: inline; }
 
-    .download-btn:hover {
-      background: #1f7a33;
-      transform: scale(1.05);
-    }
-
-    .footer {
-      margin-top: 80px;
+    .footer-copyright {
       font-size: 12px;
-      color: #666;
-      line-height: 1.6;
+      color: rgba(245,230,200,0.4);
+      line-height: 1.7;
+      text-align: right;
     }
+
+    /* ---- ENTRANCE ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .logo-wrap    { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
+    .game-logo    { animation: fadeUp 0.7s ease both; animation-delay: 0.3s; }
+    .tagline      { animation: fadeUp 0.7s ease both; animation-delay: 0.5s; }
+    .divider      { animation: fadeIn 0.9s ease both; animation-delay: 0.65s; }
+    .btn-row      { animation: fadeUp 0.7s ease both; animation-delay: 0.7s; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 700px) {
+      .hero-content { padding: 60px 28px; }
+      .hero-bg { background-position: 70% center; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-copyright { text-align: center; }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <!-------------------- TOP-LEFT LOGO -------------------->
+  <nav class="top-nav-studio">
+    <img class="logo-normal"  src="images/ALTF5_Logo.png"       alt="ALTF5 Studio"
+          onerror="this.style.display='none';">
+    <img class="logo-hovered" src="images/ALTF5_Logo_Hover.png" alt="ALTF5 Studio"
+          onerror="this.style.display='none';">
+  </nav>
 
-    <h1>🎮 Murphy's Pub</h1>
+  <!-------------------- HERO -------------------->
+  <section class="hero">
+    <div class="hero-bg"></div>
 
+    <div class="hero-content">
+
+      <!-- Game title image -->
+      <div class="game-logo">
+        <img src="images/MurphysPub_Logo.png"
+             alt="Murphy's Pub"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <h1 style="display:none;">Murphy's<br><span>Pub</span></h1>
+      </div>
+
+      <p class="tagline">
+        Step into the shoes of Murphy II, in attempts to save his Father's beloved pub.
+      </p>
+
+      <div class="divider"></div>
+
+      <!-- Download button row -->
+      <div class="btn-row">
+
+        <a class="btn-download"
+           href="https://github.com/Kori-h/csd3401f25_team_altf5_releases/releases/latest/download/MurphysPub_Setup.exe">
+          
+          <img class="btn-normal" src="images/Download_Button.png"       alt="Download"
+               onerror="this.closest('.btn-download').style.display='none'; document.getElementById('btn-fallback').style.display='inline-block';">
+          <img class="btn-hover"  src="images/Download_Button_Hover.png" alt="Download">
+        
+        </a>
+
+        <a id="btn-fallback"
+           class="btn-fallback"
+           style="display:none;"
+           href="https://github.com/Kori-h/csd3401f25_team_altf5_releases/releases/latest/download/MurphysPub_Setup.exe">
+          ⬇ Download Installer
+        </a>
+
+      </div>
+    </div>
+  </section>
+  
+  <!-------------------- ABOUT -------------------->
+  <section class="about-section">
+    <p class="section-label">About the Game</p>
     <p>
-      Murphy's Pub is a restaurant simulator where you play as Murphy II, 
-      who aspires to follow in his father's footsteps and make a name for himself 
-      by saving failing restaurants.
+      Murphy's Pub is a restaurant simulator where you play as Murphy II,
+      who aspires to follow in his father's footsteps and make a name for himself
+      by saving failing restaurants. Manage your menu, serve demanding guests, and
+      build a reputation that fills every stool in the house.
     </p>
+  </section>
 
-    <!-- 🎬 Trailer -->
-    <div class="video-container">
+  <!-------------------- TRAILER -------------------->
+  <section class="trailer-section">
+    <p class="section-label">Official Trailer</p>
+    <h2 class="section-title">See the Pub Come to Life</h2>
+    <div class="video-wrap">
+      
       <iframe
         src="https://www.youtube.com/embed/ubbtYDJ_aSA"
-        title="Game Trailer"
-        frameborder="0"
+        title="Murphy's Pub — Game Trailer"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        frameborder="0"
         allowfullscreen>
       </iframe>
+
+    </div>
+  </section>
+
+  <!-------------------- FOOTER -------------------->
+  <footer>
+
+    <div class="footer-studio">
+      <img class="logo-normal"  src="images/ALTF5_Logo.png"       alt="ALTF5 Studio"
+           onerror="this.style.display='none';">
+      <img class="logo-hovered" src="images/ALTF5_Logo_Hover.png" alt="ALTF5 Studio"
+           onerror="this.style.display='none';">
     </div>
 
-    <!-- ⬇ Download -->
-    <a class="download-btn"
-       href="https://github.com/Kori-h/csd3401f25_team_altf5_releases/releases/latest/download/MurphysPub_Setup.exe">
-      ⬇ Download Installer
-    </a>
-
-    <!-- Footer -->
-    <div class="footer">
+    <div class="footer-copyright">
       <p>© 2025–2026 DigiPen Institute of Technology Singapore. All rights reserved.</p>
-      <p>Powered by GitHub Releases</p>
+      <p>Hosted on GitHub Releases - Built by Team ALTF5</p>
     </div>
 
-  </div>
+  </footer>
 
 </body>
 </html>
