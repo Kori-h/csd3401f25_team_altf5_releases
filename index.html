@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Game</title>
+  <title>Murphy's Pub</title>
 
   <style>
     body {
@@ -11,26 +11,46 @@
       font-family: Arial, sans-serif;
       background: #0f0f0f;
       color: #ffffff;
-      text-align: center;
     }
 
     .container {
-      margin-top: 120px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      text-align: center;
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 52px;
       margin-bottom: 10px;
     }
 
     p {
       font-size: 18px;
       color: #bbbbbb;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+    }
+
+    /* 🎥 Responsive video */
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 40px auto;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
     }
 
     .download-btn {
       display: inline-block;
-      margin-top: 30px;
+      margin-top: 10px;
       padding: 15px 30px;
       font-size: 20px;
       color: white;
@@ -49,6 +69,7 @@
       margin-top: 80px;
       font-size: 12px;
       color: #666;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -56,19 +77,38 @@
 <body>
 
   <div class="container">
-    <h1>🎮 Murphy's Pub</h1>
-    <p>Murphy's Pub is a Restaurant Simulator where you play as Murphy the 2nd, who aspires to follow in his fathers footstep to make a name for himself, cementing his name in legends by saving failing restaurants.</p>
 
+    <h1>🎮 Murphy's Pub</h1>
+
+    <p>
+      Murphy's Pub is a restaurant simulator where you play as Murphy II, 
+      who aspires to follow in his father's footsteps and make a name for himself 
+      by saving failing restaurants.
+    </p>
+
+    <!-- 🎬 Trailer -->
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/watch?v=ubbtYDJ_aSA"
+        title="Game Trailer"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- ⬇ Download -->
     <a class="download-btn"
        href="https://github.com/Kori-h/csd3401f25_team_altf5_releases/releases/latest/download/MurphysPub_Setup.exe">
       ⬇ Download Installer
     </a>
 
+    <!-- Footer -->
     <div class="footer">
-      All content © 2025/2026 DigiPen Institute of Technology Singapore. 
-      All rights reserved.
-      Powered by GitHub Releases
+      <p>© 2025–2026 DigiPen Institute of Technology Singapore. All rights reserved.</p>
+      <p>Powered by GitHub Releases</p>
     </div>
+
   </div>
 
 </body>
